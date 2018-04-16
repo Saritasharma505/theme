@@ -46,9 +46,9 @@
                                 <tbody>
                                     <tr>
                                         <td><?= $i++;?></td>
-                                        <th>gbfg</th>
-                                        <th>gfb</th>
-                                        <th>rf</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                         
                                     </tr>
                                        

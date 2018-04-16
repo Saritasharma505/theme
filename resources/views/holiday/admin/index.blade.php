@@ -8,6 +8,7 @@
     <script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <script>
         $(function () {
+           
             $("#example1, #example2").DataTable();
         });
     </script>
@@ -28,7 +29,9 @@
                         <div class="panel-heading">
                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">ADD </button>
                         </div>
-                    
+                     @if (Session::has('message'))
+                        <div id="alert" class="alert alert-sucess">{{ Session::get('message') }}</div>
+                    @endif
                    
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -40,20 +43,29 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Location</th>
                                         <th>Action</th>
                                         
                                     </tr>
                                 </thead> 
-                                <tbody>
-                                    <tr>
-                                        <td><?= $i++;?></td>
-                                        <th>gbfg</th>
-                                        <th>gfb</th>
-                                        <th>rf</th>
-                                        
+                               <tbody>
+                                <?php $i=1; foreach($admins as $admin){?>
+                                    <tr class="odd gradeX">
+                                       <td><?= $i++;?></td>
+                                        <td><?= $admin->name;?></td>
+                                         <td><?= $admin->email;?></td>
+                                         <td><?= $admin->phone;?></td>
+                                         <td><?= $admin->role;?></td>
+                                         <td><?= $admin->location;?></td>
+                                        <td><a  class="fa fa-pencil btn btn-primary" href="{{ route('admin.edit',$admin->id) }}"></a>&nbsp;&nbsp;&nbsp;<a class="fa fa-trash btn btn-danger" href="{{ route('admin.destroy',$admin->id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            </a>
+                                        </td>
                                     </tr>
-                                       
+                                    <?php }?>
                                 </tbody>
+
                             </table>
                             </div>
                             <!-- /.table-responsive -->
@@ -79,7 +91,7 @@
                           <div class="modal-body">
                        
                         
-                                    <form role="form" method="post" action="">
+                                    <form role="form" method="post" action="{{ route('admin.store') }}">
                                         <?php echo csrf_field();?>
                                         <div class="form-group">
                                             <label>DSA Name</label>
@@ -92,7 +104,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Password</label>
-                                            <input class="form-control" name="password" id="dsa_pass" placeholder="Password" required>
+                                            <input type="password" class="form-control" name="password" id="dsa_pass" placeholder="Password" required>
                                         </div>
                                        
                                         <div class="form-group">
@@ -102,23 +114,24 @@
                                         <div class="form-group">
                                             <label>Role</label>
                                             <select class="form-control" name="role" id="dsa_role"  required>
-                                                <option>Please Select Role</option>
-                                                
-                                                <option value=""></option>
+                                            <option>Please Select Role</option>
+                                            <option value="Super Admin">Super Admin</option>
+                                             <option value="Admin">Admin</option>  
+                                            <option value="Customer">Customer</option>  
+                                            <option value="DSA">DSA</option>     
                                         </select></div>
 
                                         <div class="form-group">
                                             <label>Location</label>
-                                            <select  class="form-control" name="location" id="location" placeholder="Enter text" required>
-                                                <option>Please Select</option>
-                                               
-                                                <option value=""></option>
-                                                
+                                            <select  class="form-control" name="location" id="location" required>
+                                            <option>Please Select</option>
+                                            <option value="Agra">Agra</option>
+                                            <option value="Faridabad">Faridabad</option>
+                                            <option value="Ambala">Ambala</option>   
+                                            <option value="Delhi">Delhi</option>   
                                             </select>
                                         </div>
-                                        
-                                
-                                       
+                                     
                                         <button type="submit" class="btn btn-info" name="submit">Submit</button>
                                         <button type="button" class="btn btn-default pull pull-right" data-dismiss="modal">Close</button>
                                     </form>
